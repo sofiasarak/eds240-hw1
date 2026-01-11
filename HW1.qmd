@@ -2,8 +2,9 @@
 title: "HW #1"
 subtitle: "Interpreting `{ggplot2}` code"
 description: "Assigned Wed 01/07/2026 | Due Wed 01/14/2026"
-author: "Your Name"
+author: "Sofia Sarak"
 toc: true
+code-line-numbers: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -52,11 +53,11 @@ showtext::showtext_auto(enable = TRUE)
 
 1. **What is the author defining in lines 15-17? Where else in the code do these defined variables show up? What advantage(s) is there to defining these values here, as variables, rather than defining the values directly throughout the script?**
 
-    - Answer here
+    - The author is defining specific colors using hex codes, and saving them together as a vector under `alien` and then each as their own variable in lines 16 and 17. The advantage to this is that since these are colors that will be used repeatedly in the visualization, it is much easier to reference them as variables instead of finding and copying the hex codes (or memorizing them?) each time.
 
 2. **In your own words, explain what the function, `font_add_google()`, does. What's the difference between the two arguments, `name` and `family`?**
 
-    - Answer here
+    - The function `font_add_google()` imports specific fonts from the Google Fonts repository into `sysfonts`, which provides access to installed fonts. The argument `name` specifies the text that will be searched in the repository to access the desired font, while "family" can be any string (doesn't have to match `name`) that will be used to specify the font in R plotting.
 
 ## II. Data wrangling
 
