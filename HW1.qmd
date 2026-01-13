@@ -193,7 +193,7 @@ caption <- glue("{original}{space}{dan_github}
 
 11. **In your own words, what is the difference between `paste0()` and `glue()`? Why did the author use `paste0` to construct `quotes` and `glue` to construct the other text elements?**
 
-    - Answer here
+    - `paste0` interprets R code whereas `glue` can interprets HTML, for easier customization. `paste0` was used to construct `quotes` because it was extracting data from a data frame within R, perhaps making using R syntax (such as for selecting out of said data frame) necessary. The other elements were constructed with `glue` because they had specifications like font, background color, and spacing that needed to be written in HTML format.
 
 ## IV. Build plots
 
@@ -235,7 +235,7 @@ plot_shape <- ggplot(data = df_shape) +
 
 12. **Explain the values provided to the `x` aesthetic for both text geoms (`shape` & `total_sightings`).**
 
-    - Answer here
+    - The values provided to the `x` aesthetic represent the x coordinates at which the `geom_text()` objects are to be located. In the first text geom (`shape`) the labels are specified to exist at the x-coordinate 200, whereas in the second (`total_sightings`), the label is to be 200 x-coordinates to the left of the end of each `total_sightings` columns.
 
 ### ii. Build `plot_us` 
 
@@ -275,7 +275,7 @@ plot_us <-  ggplot(df_us) +
 
 13. **Consider the order of `geom_*()` layers in the the above plot (`plot_us`). Why did the author order the layers in this way?**
 
-    - Answer here
+    - In this plot, `geom_rect` is first because it acts as the background for the `geom_text` labels. By putting it first, the author ensures that it gets plotted first, and therefore the labels get plotted on top of it.
 
 ### iii. Build `plot_day`
 
@@ -309,11 +309,11 @@ plot_day <- ggplot(data = df_day_hour) +
 
 14. **This plot includes one-letter labels for each day of the week. How is ths accomplished when week days are written using their three-letter abbreviations (e.g. `Mon`, `Tue`) in the `df_day_hour` data frame?**
 
-    - Answer here
+    - This is accomplished through the function `str_sub`, which takes the original `wday` string, and (according to the arguments in this plot), keeps only the first character in the string. This is done by assigning both the start and end of the character range to 1.
 
 15. **What role do the `ylim()` and `xlim()` functions play in shaping a ggplot, and how do they change the visual layout of this particular plot? To better understand their effect, try rerunning the code with each of these lines commented out and observe how the plot’s spacing and composition change.**
-
-    - Answer here
+  
+    - Generally, `ylim()` and `xlim()` change the y- and x-axis limits of a ggplot object. In this case, a y-axis from -5 to 9 creates a blank circle/hole in the middle of the plot, and "squishes" each data box to be a bit narrower than before. The x-axis limit of 23.55 puts a gap between 11pm and 12am, in order to match the gaps in the rest of the plot.
 
 ### iv. Build `quote*`s
 
@@ -374,7 +374,7 @@ quote3 <- ggplot() +
 
 16. **Why do you think the author chose to convert these text elements (and also in `plot_ufo`, below!) into ggplot objects (you may consider returning to this question after you've worked your way through all of the code)?**
 
-    - Answer here
+    - By having all the plot components as the same type of object, it is easier to combine them using the same commands. 
 
 ### v. Build `plot_ufo`
 
@@ -424,12 +424,12 @@ plot_base <- ggplot() +
                                             hjust = 0.5,
                                             margin = margin(t = 20)),
     plot.margin = margin(b = 20, t = 50, r = 50, l = 50)
-  )
+  ) 
 ```
 
 17. **Why does the author render `plot.caption` using `ggtext::element_markdown()`, rather than `element_text()` (like he does for rendering `plot.title` and `text`)?**
 
-    - Answer here
+    - The author uses `ggtext::element_markdown()` instead of `element_text()` because the caption was defined using the `glue()` function, and styling is specified using HTML. `ggtext::element_markdown()` can interpret HTML, whereas `element_text()` cannot. One way that this is important in this case is to preserve the spacing of the caption. 
 
 ## V. Assemble & save
 
@@ -460,11 +460,12 @@ ggsave(plot = plot_final,
 
 18. **Explain how `plot_final` is assembled. What do you think is the most challenging aspect of arranging all components into a single plot?**
 
-    - Answer here
+    - Each element of the final plot -- the three plots and three quotes -- were all manually inset onto the `plot_base` (that has the title, subtitle, and caption) using the locations of the outer bonds (left, right, top, and bottom). The UFO image in the middle of `plot_day` is also manually inset. The function `inset_element()` comes from the `patchwork` package.
+    The most challenging aspect of arranging all of the components must be figuring out the proper placement using the argument units. I imagine that it would take a lot of fiddling and re-running the code to get all of the components to be situated exactly where you want them.
 
 19. **Can you think of one reason the author may have chosen to separate the construction of `plot_base` and `plot_final`?**
 
-    - Answer here
+    - By creating `plot_base` first and treating it as its own separate object, the author gives themself the freedom to alter details such as text size, position, and color, without having to rerun or be afraid of affecting the `plot_final` object each time. Additionally, `plot_base` is defined using many lines of code. Constructing `plot_base` and `plot_final` together in one code chunk could potentially reduce readibility and comprehension to an outside audience.
 
 ## Answer some final reflective questions 
 
