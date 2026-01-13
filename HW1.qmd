@@ -57,7 +57,7 @@ showtext::showtext_auto(enable = TRUE)
 
 2. **In your own words, explain what the function, `font_add_google()`, does. What's the difference between the two arguments, `name` and `family`?**
 
-    - The function `font_add_google()` imports specific fonts from the Google Fonts repository into `sysfonts`, which provides access to installed fonts. The argument `name` specifies the text that will be searched in the repository to access the desired font, while "family" can be any string (doesn't have to match `name`) that will be used to specify the font in R plotting.
+    - The function `font_add_google()` imports specific fonts from the Google Fonts repository into `sysfonts`, which provides access to installed fonts. The argument `name` specifies the text that will be searched in the repository to access the desired font, while "family" can be any string (doesn't have to match `name`) that will be used to specify the font later on in R plotting.
 
 ## II. Data wrangling
 
@@ -79,7 +79,7 @@ df_pop <- places |>
 
 3. **Describe what this data frame contains.**
 
-    - Answer here
+    - This data frame contains two columns: one with all of the U.S. states, identified by their abbreviations, and the other with the corresponding state population.
 
 ### ii. Create `df_us`
 
@@ -103,11 +103,11 @@ df_us <- ufo_sightings |>
 
 4. **Describe what this data frame contains.**
 
-    - Answer here
+    - This data contains 5 columns. Like `df_pop`, `df_us` also has a column of state abbreviations and one containing state populations. In addition to this, this dataframe also has the number of UFO observations in each state as its third column. Using state populations and UFO sightings, the number of UFO observations per 10,000 people (`num_obs_per10k`) was calculated and saved as its own column. Finally, `opacity_val`, the fifth column, contains the fraction that each `num_obs_per10k` value is of the maximum `num_obs_per10` value. 
 
 5. **What does `opacity_val` represent, and why is it calculated?**
 
-    - Answer here
+    - `opacity_val` represents the proportion that `num_obs_per10k` is of its maximum value. This was calculated in order to have an opacity value to assign to the `alpha=` argument in plotting. By doing it in this way, it ensures that the higher `num_obs_per10k` values would appear darker and lower ones lighter. This makes intuitive sense, as we would expense something with a larger value to be presented as more concentrated.
 
 ### iii. Create `df_shape`
 
@@ -131,15 +131,15 @@ df_shape <- ufo_sightings |>
 
 6. **Describe what this data frame contains.**
 
-    - Answer here
+    - This data frame contains the top 10 most common UFO shapes sighted, with a column for total sightings (in descending order) and one with opacity value. `opacity_val` was assigned to UFO shape using the rescale function from the scales package, which applies a proportional value, from 0.3 to 1, to each number of sightings based on its position between the maximum and minimum. In total, there are three columns.
 
 7. **What does `fct_reorder` do when it is applied to the `shape` variable? What would have happened if this step was not performed?**
 
-    - Answer here
+    - When applied to the `shape` variable, the `fct_reorder` function specifies that `shape` will be ordered by the `total_sightings` variable moving forward. Although the data frame was already arranged by `total_sightings` in descending order, this step ensures that during plotting the factors are actually plotted in the order we want them, instead of alphabetically (the default).
 
 8. **What is the purpose of rescaling `opacity_val`? And why rescale from 0.3 to 1?**
 
-    - Answer here
+    - Rescaling `opacity_val` translates the `total_sightings` column into values that the alpha argument (which comes up in plotting) comprehends. Rescaling from 0.3 to 1 is important, as opposed to 0 to 1, because otherwise the shape with the lowest value would have no opacity at all (alpha = 0). Specifying 0.3 to 1 ensures that the lighest value is still dark enough to discern.
 
 ### iv. Create `df_day_hour`
 
@@ -167,11 +167,11 @@ df_day_hour <- ufo_sightings |>
 
 9. **Describe what this data frame contains.**
 
-    - Answer here
+    - This data frame has six columns. The first two are the days of the week, categorized both as an integer (`day`, where 1 represents Sunday) and character string abbreviation (`wday`, where Sun represents Sunday). There are also two columns that contain each hour of the day. Similarly to the days of the weeks column, one (`hour`) is an integer of the hour, and the other (`hour_lab`) is a character string with a number and "am" or "pm". Finally, each hour of each day also has a corresponding value in the `total_daily_obs` column.
 
 10. **What is the purpose of the last line inside the `case_when()` statement (`TRUE ~ paste0(hour - 12, "pm")`)?**
 
-    - Answer here
+    - The last line in the `case_when()` statement defines the default value when none of the previously defined conditions are meant. In this case, it tells the `case_when()` function that if the hour is not 0, less than 12, or equal to 12, then to subtract 12 from the value and add "pm" to the label.
 
 ## III. Prepare text elements
 

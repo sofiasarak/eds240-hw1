@@ -191,11 +191,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p><strong>What is the author defining in lines 15-17? Where else in the code do these defined variables show up? What advantage(s) is there to defining these values here, as variables, rather than defining the values directly throughout the script?</strong></p>
 <ul>
-<li>Answer here</li>
+<li>The author is defining specific colors using hex codes, and saving them together as a vector under <code>alien</code> and then each as their own variable in lines 16 and 17. The advantage to this is that since these are colors that will be used repeatedly in the visualization, it is much easier to reference them as variables instead of finding and copying the hex codes (or memorizing them?) each time.</li>
 </ul></li>
 <li><p><strong>In your own words, explain what the function, <code>font_add_google()</code>, does. What’s the difference between the two arguments, <code>name</code> and <code>family</code>?</strong></p>
 <ul>
-<li>Answer here</li>
+<li>The function <code>font_add_google()</code> imports specific fonts from the Google Fonts repository into <code>sysfonts</code>, which provides access to installed fonts. The argument <code>name</code> specifies the text that will be searched in the repository to access the desired font, while “family” can be any string (doesn’t have to match <code>name</code>) that will be used to specify the font in R plotting.</li>
 </ul></li>
 </ol>
 </section>
