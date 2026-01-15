@@ -191,11 +191,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p><strong>What is the author defining in lines 15-17? Where else in the code do these defined variables show up? What advantage(s) is there to defining these values here, as variables, rather than defining the values directly throughout the script?</strong></p>
 <ul>
-<li>The author is defining specific colors using hex codes, and saving them together as a vector under <code>alien</code> and then each as their own variable in lines 16 and 17. The advantage to this is that since these are colors that will be used repeatedly in the visualization, it is much easier to reference them as variables instead of finding and copying the hex codes (or memorizing them?) each time.</li>
+<li>The author is defining specific colors using hex codes, and saving them together as a vector under <code>alien</code> and then each as their own variable in lines 16 and 17. The advantage to this is that since these are colors that will be used repeatedly in the visualization (with arguments like <code>fill=</code>), it is much easier to reference them as variables instead of finding and copying the hex codes (or memorizing them?) each time.</li>
 </ul></li>
 <li><p><strong>In your own words, explain what the function, <code>font_add_google()</code>, does. What’s the difference between the two arguments, <code>name</code> and <code>family</code>?</strong></p>
 <ul>
-<li>The function <code>font_add_google()</code> imports specific fonts from the Google Fonts repository into <code>sysfonts</code>, which provides access to installed fonts. The argument <code>name</code> specifies the text that will be searched in the repository to access the desired font, while “family” can be any string (doesn’t have to match <code>name</code>) that will be used to specify the font later on in R plotting.</li>
+<li>The function <code>font_add_google()</code> imports specific fonts from the Google Fonts repository into <code>sysfonts</code>, which provides access to installed fonts within this R session. The argument <code>name</code> specifies the text that will be searched in the repository to access the desired font, while “family” can be any string (doesn’t have to match <code>name</code>) that will be used to specify the font later on in R plotting.</li>
 </ul></li>
 </ol>
 </section>
@@ -216,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="3" type="1">
 <li><p><strong>Describe what this data frame contains.</strong></p>
 <ul>
-<li>This data frame contains two columns: one with all of the U.S. states, identified by their abbreviations, and the other with the corresponding state population.</li>
+<li>This data frame contains two columns: one with all of the U.S. states, identified by their abbreviations (stored as character strings), and the other with the corresponding state population (a numeric variable).</li>
 </ul></li>
 </ol>
 </section>
@@ -243,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><p><strong>What does <code>opacity_val</code> represent, and why is it calculated?</strong></p>
 <ul>
-<li><code>opacity_val</code> represents the proportion that <code>num_obs_per10k</code> is of its maximum value. This was calculated in order to have an opacity value to assign to the <code>alpha=</code> argument in plotting. By doing it in this way, it ensures that the higher <code>num_obs_per10k</code> values would appear darker and lower ones lighter. This makes intuitive sense, as we would expense something with a larger value to be presented as more concentrated.</li>
+<li><code>opacity_val</code> represents the proportion that <code>num_obs_per10k</code> is of its maximum value. This was calculated in order to have an opacity value to assign to the <code>alpha=</code> argument in plotting. By doing it in this way, it ensures that the higher <code>num_obs_per10k</code> values would appear darker and lower ones lighter. This makes intuitive sense, as we would expect something with a larger value to be presented as more concentrated.</li>
 </ul></li>
 </ol>
 </section>
@@ -274,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><p><strong>What is the purpose of rescaling <code>opacity_val</code>? And why rescale from 0.3 to 1?</strong></p>
 <ul>
-<li>Rescaling <code>opacity_val</code> translates the <code>total_sightings</code> column into values that the alpha argument (which comes up in plotting) comprehends. Rescaling from 0.3 to 1 is important, as opposed to 0 to 1, because otherwise the shape with the lowest value would have no opacity at all (alpha = 0). Specifying 0.3 to 1 ensures that the lighest value is still dark enough to discern.</li>
+<li>Rescaling <code>opacity_val</code> translates the <code>total_sightings</code> column into values that the alpha argument (which comes up in plotting) comprehends. Rescaling from 0.3 to 1 is important, as opposed to 0 to 1 (which is the acceptable range of values for alpha), because otherwise the shape with the lowest value would have no opacity at all (alpha = 0). Specifying 0.3 to 1 ensures that the lighest value is still dark enough to discern.</li>
 </ul></li>
 </ol>
 </section>
@@ -301,11 +301,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="9" type="1">
 <li><p><strong>Describe what this data frame contains.</strong></p>
 <ul>
-<li>This data frame has six columns. The first two are the days of the week, categorized both as an integer (<code>day</code>, where 1 represents Sunday) and character string abbreviation (<code>wday</code>, where Sun represents Sunday). There are also two columns that contain each hour of the day. Similarly to the days of the weeks column, one (<code>hour</code>) is an integer of the hour, and the other (<code>hour_lab</code>) is a character string with a number and “am” or “pm”. Finally, each hour of each day also has a corresponding value in the <code>total_daily_obs</code> column.</li>
+<li>This data frame has six columns. The first two are the days of the week, categorized both as an integer (<code>day</code>, where 1 represents Sunday) and character string abbreviation (<code>wday</code>, where Sun represents Sunday). There are also two columns that contain each hour of the day. Similarly to the days of the weeks column, one (<code>hour</code>) is an integer of the hour, and the other (<code>hour_lab</code>) is a character string with a digit and “am” or “pm”. Finally, each hour of each day also has a corresponding value in the <code>total_daily_obs</code> column, representing observations within that specific time frame.</li>
 </ul></li>
 <li><p><strong>What is the purpose of the last line inside the <code>case_when()</code> statement (<code>TRUE ~ paste0(hour - 12, "pm")</code>)?</strong></p>
 <ul>
-<li>The last line in the <code>case_when()</code> statement defines the default value when none of the previously defined conditions are meant. In this case, it tells the <code>case_when()</code> function that if the hour is not 0, less than 12, or equal to 12, then to subtract 12 from the value and add “pm” to the label.</li>
+<li>The last line in the <code>case_when()</code> statement defines the default value when none of the previously defined conditions are meant. In this case, it tells the <code>case_when()</code> function that if the hour is <em>not</em> 0, less than 12, or equal to 12, then to subtract 12 from the value and add “pm” to the label.</li>
 </ul></li>
 </ol>
 </section>
@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="11" type="1">
 <li><p><strong>In your own words, what is the difference between <code>paste0()</code> and <code>glue()</code>? Why did the author use <code>paste0</code> to construct <code>quotes</code> and <code>glue</code> to construct the other text elements?</strong></p>
 <ul>
-<li><code>paste0</code> interprets R code whereas <code>glue</code> can interprets HTML, for easier customization. <code>paste0</code> was used to construct <code>quotes</code> because it was extracting data from a data frame within R, perhaps making using R syntax (such as for selecting out of said data frame) necessary. The other elements were constructed with <code>glue</code> because they had specifications like font, background color, and spacing that needed to be written in HTML format.</li>
+<li><code>paste0</code> interprets R syntax whereas <code>glue</code> can interpret HTML, which allows for easier customization. <code>paste0</code> was used to construct <code>quotes</code> because it was extracting data from a data frame, perhaps making using R syntax (such as for selecting out of said data frame) necessary. The other elements were constructed with <code>glue</code> because they had specifications like font, background color, and spacing that needed to be written in HTML format.</li>
 </ul></li>
 </ol>
 </section>
@@ -368,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="12" type="1">
 <li><p><strong>Explain the values provided to the <code>x</code> aesthetic for both text geoms (<code>shape</code> &amp; <code>total_sightings</code>).</strong></p>
 <ul>
-<li>The values provided to the <code>x</code> aesthetic represent the x coordinates at which the <code>geom_text()</code> objects are to be located. In the first text geom (<code>shape</code>) the labels are specified to exist at the x-coordinate 200, whereas in the second (<code>total_sightings</code>), the label is to be 200 x-coordinates to the left of the end of each <code>total_sightings</code> columns.</li>
+<li>The values provided to the <code>x</code> aesthetic represent the x coordinates at which the <code>geom_text()</code> objects are to be located. In the first text geom (<code>shape</code>) the labels are specified to exist at the x-coordinate 200, whereas in the second (<code>total_sightings</code>), the label is to be 200 x-coordinates to the left of each <code>total_sightings</code> columns. In other words, <code>shape</code>’s position was defined in absolute terms, while <code>total_sightings</code>’s in relative terms.</li>
 </ul></li>
 </ol>
 </section>
@@ -406,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="13" type="1">
 <li><p><strong>Consider the order of <code>geom_*()</code> layers in the the above plot (<code>plot_us</code>). Why did the author order the layers in this way?</strong></p>
 <ul>
-<li>In this plot, <code>geom_rect</code> is first because it acts as the background for the <code>geom_text</code> labels. By putting it first, the author ensures that it gets plotted first, and therefore the labels get plotted on top of it.</li>
+<li>In this plot, <code>geom_rect</code> is first because it acts as the background for the <code>geom_text</code> labels. By putting it first, the author ensures that it gets plotted first, and therefore the labels get plotted on top of it, as the second and third steps.</li>
 </ul></li>
 </ol>
 </section>
@@ -502,7 +502,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="16" type="1">
 <li><p><strong>Why do you think the author chose to convert these text elements (and also in <code>plot_ufo</code>, below!) into ggplot objects (you may consider returning to this question after you’ve worked your way through all of the code)?</strong></p>
 <ul>
-<li>By having all the plot components as the same type of object, it is easier to combine them using the same commands.</li>
+<li>By having all the visual components (plots, quotes, and images) as the same type of object, it is easier to combine them using the same commands within R.</li>
 </ul></li>
 </ol>
 </section>
@@ -548,24 +548,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-25"><a href="#cb12-25"></a>                                            <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
 <span id="cb12-26"><a href="#cb12-26"></a>                                            <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">20</span>)),</span>
 <span id="cb12-27"><a href="#cb12-27"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">20</span>, <span class="at">t =</span> <span class="dv">50</span>, <span class="at">r =</span> <span class="dv">50</span>, <span class="at">l =</span> <span class="dv">50</span>)</span>
-<span id="cb12-28"><a href="#cb12-28"></a>  )  <span class="sc">+</span> <span class="fu">inset_element</span>(plot_shape, <span class="at">left =</span> <span class="dv">0</span>, <span class="at">right =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">1</span>, <span class="at">bottom =</span> <span class="fl">0.66</span>) <span class="sc">+</span></span>
-<span id="cb12-29"><a href="#cb12-29"></a>  <span class="fu">inset_element</span>(plot_us, <span class="at">left =</span> <span class="fl">0.42</span>, <span class="at">right =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="fl">0.74</span>, <span class="at">bottom =</span> <span class="fl">0.33</span>) <span class="sc">+</span></span>
-<span id="cb12-30"><a href="#cb12-30"></a>  <span class="fu">inset_element</span>(plot_day, <span class="at">left =</span> <span class="dv">0</span>, <span class="at">right =</span> <span class="fl">0.66</span>, <span class="at">top =</span> <span class="fl">0.4</span>, <span class="at">bottom =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb12-31"><a href="#cb12-31"></a>  <span class="fu">inset_element</span>(quote1, <span class="at">left =</span> <span class="fl">0.5</span>, <span class="at">right =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="fl">0.8</span>, <span class="at">bottom =</span> <span class="fl">0.72</span>) <span class="sc">+</span></span>
-<span id="cb12-32"><a href="#cb12-32"></a>  <span class="fu">inset_element</span>(quote2, <span class="at">left =</span> <span class="dv">0</span>, <span class="at">right =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="fl">0.52</span>, <span class="at">bottom =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb12-33"><a href="#cb12-33"></a>  <span class="fu">inset_element</span>(quote3, <span class="at">left =</span> <span class="fl">0.7</span>, <span class="at">right =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="fl">0.2</span>, <span class="at">bottom =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb12-34"><a href="#cb12-34"></a>  <span class="fu">inset_element</span>(plot_ufo, <span class="at">left =</span> <span class="fl">0.25</span>, <span class="at">right =</span> <span class="fl">0.41</span>, <span class="at">top =</span> <span class="fl">0.23</span>, <span class="at">bottom =</span> <span class="fl">0.17</span>) <span class="sc">+</span> </span>
-<span id="cb12-35"><a href="#cb12-35"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb12-36"><a href="#cb12-36"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(</span>
-<span id="cb12-37"><a href="#cb12-37"></a>      <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> bg,</span>
-<span id="cb12-38"><a href="#cb12-38"></a>                                     <span class="at">color =</span> bg)</span>
-<span id="cb12-39"><a href="#cb12-39"></a>    )</span>
-<span id="cb12-40"><a href="#cb12-40"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-28"><a href="#cb12-28"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="17" type="1">
 <li><p><strong>Why does the author render <code>plot.caption</code> using <code>ggtext::element_markdown()</code>, rather than <code>element_text()</code> (like he does for rendering <code>plot.title</code> and <code>text</code>)?</strong></p>
 <ul>
-<li>The author uses <code>ggtext::element_markdown()</code> instead of <code>element_text()</code> because the caption was defined using the <code>glue()</code> function, and styling is specified using HTML. <code>ggtext::element_markdown()</code> can interpret HTML, whereas <code>element_text()</code> cannot. One way that this is important in this case is to preserve the spacing of the caption.</li>
+<li>The author uses <code>ggtext::element_markdown()</code> instead of <code>element_text()</code> because the caption was defined using the <code>glue()</code> function, and styling is specified using HTML. <code>ggtext::element_markdown()</code> can interpret HTML, whereas <code>element_text()</code> cannot. In this case, this is important is to preserve the spacing of the caption, for example. The title and subtitle, on the other hand, are entered as simple strings, and can be rendered with <code>element_text</code>.</li>
 </ul></li>
 </ol>
 </section>
@@ -596,11 +584,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="18" type="1">
 <li><p><strong>Explain how <code>plot_final</code> is assembled. What do you think is the most challenging aspect of arranging all components into a single plot?</strong></p>
 <ul>
-<li>Each element of the final plot – the three plots and three quotes – were all manually inset onto the <code>plot_base</code> (that has the title, subtitle, and caption) using the locations of the outer bonds (left, right, top, and bottom). The UFO image in the middle of <code>plot_day</code> is also manually inset. The function <code>inset_element()</code> comes from the <code>patchwork</code> package. The most challenging aspect of arranging all of the components must be figuring out the proper placement using the argument units. I imagine that it would take a lot of fiddling and re-running the code to get all of the components to be situated exactly where you want them.</li>
+<li>Each element of the final visual – the three plots and three quotes – were all manually inset onto the <code>plot_base</code> (which contains the title, subtitle, and caption) by specifying the locations of the outer bounds (left, right, top, and bottom). The UFO image in the middle of <code>plot_day</code> is also manually inset. The function <code>inset_element()</code> comes from the <code>patchwork</code> package. The most challenging aspect of arranging all of the components must be figuring out the proper placement using the argument units. I imagine that it would take a lot of fiddling and re-running the code to get all of the components to be situated exactly where you want them.</li>
 </ul></li>
 <li><p><strong>Can you think of one reason the author may have chosen to separate the construction of <code>plot_base</code> and <code>plot_final</code>?</strong></p>
 <ul>
-<li><code>plot_base</code> was created using the <code>ggplot</code> package, whereas the final assembly was done using <code>patchwork</code>. Although the two packages often work hand-in-hand together, I imagine that adding one on top of the other may</li>
+<li>By creating <code>plot_base</code> first and treating it as its own separate object, the author gives themself the freedom to alter details such as text size, position, and color (of the title, subtitle, and caption), without having to rerun or be afraid of affecting <code>plot_final</code> each time. Additionally, <code>plot_base</code> is defined using many lines of code. Constructing <code>plot_base</code> and <code>plot_final</code> together in one code chunk could potentially reduce readibility and comprehension to an outside audience.</li>
 </ul></li>
 </ol>
 </section>
@@ -611,32 +599,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="a">
 <li><p><strong>What “perceptual tasks” (from Cleveland &amp; McGill’s heirarchy) must the viewer perform to extract information from these visualizations?</strong></p>
 <ul>
-<li>Answer here</li>
+<li>Plot 1: Measure bar lengths relative to each other;</li>
+<li>Plot 2: Interpret opacity and spatial position (states <em>are</em> labeled though, making it a bit easier);</li>
+<li>Plot 3: Interpret opacity, as well as keep track of both the time and day variables (a little difficult with the radial plot)</li>
 </ul></li>
 <li><p><strong>What task(s) do you think the author wanted to enable or message(s) he wanted to convey with these visualizations (see lecture 2.1, slide 16 for examples)? Be sure to note at least one task / message for each of the three data viz.</strong></p>
 <ul>
-<li>Answer here</li>
+<li>Plot 1: The author wanted to convey big picture trends, such as that – regardless of time or place – the most common shape of UFO spotted is “light”</li>
+<li>Plots 2 and 3: The author wanted to explore temporal and spatial patterns of UFO sightings in the US. Both of these plots also enable comparison between different places and times of day.</li>
 </ul></li>
 <li><p><strong>Name at least one caveat to the “hierarchy of perceptual tasks” that the author employed to achieve a goal(s) you noted in question b?</strong></p>
 <ul>
-<li>Answer here</li>
+<li>The author preferred to use shades (<code>opacity_val</code>) to convey number of sightings (and explore spatial and temporal patterns), which sits pretty low on the hierarchy.</li>
 </ul></li>
 </ol></li>
 <li><p><strong>Describe two elements of this piece that you find visually-pleasing / easy to understand / intuitive. Why?</strong></p>
 <ul>
-<li>Answer here</li>
+<li>I liked how the barplot labels were embedded/plotted on top of the actual bar. I also liked the use of the coord_polar/radial plot to convey time of day. Although it doesn’t follow an actual clock (because it has 24 sections instead of 12), it was still inuitive, perhaps because we often think of time as the sun’s rotation around the globe.</li>
 </ul></li>
 <li><p><strong>Describe two elements of this piece that you feel could be better presented in a different way. Why?</strong></p>
 <ul>
-<li>Answer here</li>
+<li><ol type="1">
+<li>The squares of the US map are visually appealing, but it does make it makes it more difficult to actually discern which state is which based on common knowledge of the United States map (as in, they’re not exactly where they are truly located).</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>The way the day of the week variable was presented in the third figure isn’t very intuitive. From that plot I mostly gathered that sightings happened in the early morning, and very little about day of the week (at least at first glance).</li>
+</ol></li>
 </ul></li>
 <li><p><strong>Describe two new things that you learned by interpreting / annotating this code. These could be packages, functions, or even code organizational approaches that you hadn’t previously known about or considered.</strong></p>
 <ul>
-<li>Answer here</li>
+<li>I really liked the opacity value approach; I didn’t even know you could change alpha based on a variable.</li>
+<li>I also always thought that coord_polar wasn’t a very useful function, but I see now that it can be a visually-appealing and perhaps even intuitive way of depicting time. I also didn’t know that you could increase the size of the hole in the middle simply by using <code>ylim()</code>.</li>
 </ul></li>
 <li><p><strong>How, if at all, did you use AI tools to help you interpret this code? Describe your approach to using these tools for this assignment. In what ways was consulting the documentation more (or less) helpful than using AI?</strong></p>
 <ul>
-<li>Answer here</li>
+<li>I tried to avoid AI tools while interpreting this code, though it did inadvertently come up when I Google-searched for a function, and the AI overview popped up at the top of my results. If there were sources that seemed useful (from Stack Overflow, for example) I would opt to use those instead of using the overview. I will say that checking function documentation (internally in R) was always my first step, and for most simple functions it was more clear than AI, because it clearly lists all of the possible arguments and their uses.</li>
 </ul></li>
 </ol>
 </section>

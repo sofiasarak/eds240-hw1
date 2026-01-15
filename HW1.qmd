@@ -3,6 +3,7 @@ title: "HW #1"
 subtitle: "Interpreting `{ggplot2}` code"
 description: "Assigned Wed 01/07/2026 | Due Wed 01/14/2026"
 author: "Sofia Sarak"
+format: pdf
 toc: true
 code-line-numbers: true
 editor_options: 
@@ -53,11 +54,11 @@ showtext::showtext_auto(enable = TRUE)
 
 1. **What is the author defining in lines 15-17? Where else in the code do these defined variables show up? What advantage(s) is there to defining these values here, as variables, rather than defining the values directly throughout the script?**
 
-    - The author is defining specific colors using hex codes, and saving them together as a vector under `alien` and then each as their own variable in lines 16 and 17. The advantage to this is that since these are colors that will be used repeatedly in the visualization, it is much easier to reference them as variables instead of finding and copying the hex codes (or memorizing them?) each time.
+    - The author is defining specific colors using hex codes, and saving them together as a vector under `alien` and then each as their own variable in lines 16 and 17. The advantage to this is that since these are colors that will be used repeatedly in the visualization (with arguments like `fill=`), it is much easier to reference them as variables instead of finding and copying the hex codes (or memorizing them?) each time.
 
 2. **In your own words, explain what the function, `font_add_google()`, does. What's the difference between the two arguments, `name` and `family`?**
 
-    - The function `font_add_google()` imports specific fonts from the Google Fonts repository into `sysfonts`, which provides access to installed fonts. The argument `name` specifies the text that will be searched in the repository to access the desired font, while "family" can be any string (doesn't have to match `name`) that will be used to specify the font later on in R plotting.
+    - The function `font_add_google()` imports specific fonts from the Google Fonts repository into `sysfonts`, which provides access to installed fonts within this R session. The argument `name` specifies the text that will be searched in the repository to access the desired font, while "family" can be any string (doesn't have to match `name`) that will be used to specify the font later on in R plotting.
 
 ## II. Data wrangling
 
@@ -79,7 +80,7 @@ df_pop <- places |>
 
 3. **Describe what this data frame contains.**
 
-    - This data frame contains two columns: one with all of the U.S. states, identified by their abbreviations, and the other with the corresponding state population.
+    - This data frame contains two columns: one with all of the U.S. states, identified by their abbreviations (stored as character strings), and the other with the corresponding state population (a numeric variable).
 
 ### ii. Create `df_us`
 
@@ -107,7 +108,7 @@ df_us <- ufo_sightings |>
 
 5. **What does `opacity_val` represent, and why is it calculated?**
 
-    - `opacity_val` represents the proportion that `num_obs_per10k` is of its maximum value. This was calculated in order to have an opacity value to assign to the `alpha=` argument in plotting. By doing it in this way, it ensures that the higher `num_obs_per10k` values would appear darker and lower ones lighter. This makes intuitive sense, as we would expense something with a larger value to be presented as more concentrated.
+    - `opacity_val` represents the proportion that `num_obs_per10k` is of its maximum value. This was calculated in order to have an opacity value to assign to the `alpha=` argument in plotting. By doing it in this way, it ensures that the higher `num_obs_per10k` values would appear darker and lower ones lighter. This makes intuitive sense, as we would expect something with a larger value to be presented as more concentrated.
 
 ### iii. Create `df_shape`
 
@@ -139,7 +140,7 @@ df_shape <- ufo_sightings |>
 
 8. **What is the purpose of rescaling `opacity_val`? And why rescale from 0.3 to 1?**
 
-    - Rescaling `opacity_val` translates the `total_sightings` column into values that the alpha argument (which comes up in plotting) comprehends. Rescaling from 0.3 to 1 is important, as opposed to 0 to 1, because otherwise the shape with the lowest value would have no opacity at all (alpha = 0). Specifying 0.3 to 1 ensures that the lighest value is still dark enough to discern.
+    - Rescaling `opacity_val` translates the `total_sightings` column into values that the alpha argument (which comes up in plotting) comprehends. Rescaling from 0.3 to 1 is important, as opposed to 0 to 1 (which is the acceptable range of values for alpha), because otherwise the shape with the lowest value would have no opacity at all (alpha = 0). Specifying 0.3 to 1 ensures that the lighest value is still dark enough to discern.
 
 ### iv. Create `df_day_hour`
 
@@ -167,11 +168,11 @@ df_day_hour <- ufo_sightings |>
 
 9. **Describe what this data frame contains.**
 
-    - This data frame has six columns. The first two are the days of the week, categorized both as an integer (`day`, where 1 represents Sunday) and character string abbreviation (`wday`, where Sun represents Sunday). There are also two columns that contain each hour of the day. Similarly to the days of the weeks column, one (`hour`) is an integer of the hour, and the other (`hour_lab`) is a character string with a number and "am" or "pm". Finally, each hour of each day also has a corresponding value in the `total_daily_obs` column.
+    - This data frame has six columns. The first two are the days of the week, categorized both as an integer (`day`, where 1 represents Sunday) and character string abbreviation (`wday`, where Sun represents Sunday). There are also two columns that contain each hour of the day. Similarly to the days of the weeks column, one (`hour`) is an integer of the hour, and the other (`hour_lab`) is a character string with a digit and "am" or "pm". Finally, each hour of each day also has a corresponding value in the `total_daily_obs` column, representing observations within that specific time frame.
 
 10. **What is the purpose of the last line inside the `case_when()` statement (`TRUE ~ paste0(hour - 12, "pm")`)?**
 
-    - The last line in the `case_when()` statement defines the default value when none of the previously defined conditions are meant. In this case, it tells the `case_when()` function that if the hour is not 0, less than 12, or equal to 12, then to subtract 12 from the value and add "pm" to the label.
+    - The last line in the `case_when()` statement defines the default value when none of the previously defined conditions are meant. In this case, it tells the `case_when()` function that if the hour is *not* 0, less than 12, or equal to 12, then to subtract 12 from the value and add "pm" to the label.
 
 ## III. Prepare text elements
 
@@ -193,7 +194,7 @@ caption <- glue("{original}{space}{dan_github}
 
 11. **In your own words, what is the difference between `paste0()` and `glue()`? Why did the author use `paste0` to construct `quotes` and `glue` to construct the other text elements?**
 
-    - `paste0` interprets R code whereas `glue` can interprets HTML, for easier customization. `paste0` was used to construct `quotes` because it was extracting data from a data frame within R, perhaps making using R syntax (such as for selecting out of said data frame) necessary. The other elements were constructed with `glue` because they had specifications like font, background color, and spacing that needed to be written in HTML format.
+    - `paste0` interprets R syntax whereas `glue` can interpret HTML, which allows for easier customization. `paste0` was used to construct `quotes` because it was extracting data from a data frame, perhaps making using R syntax (such as for selecting out of said data frame) necessary. The other elements were constructed with `glue` because they had specifications like font, background color, and spacing that needed to be written in HTML format.
 
 ## IV. Build plots
 
@@ -235,7 +236,7 @@ plot_shape <- ggplot(data = df_shape) +
 
 12. **Explain the values provided to the `x` aesthetic for both text geoms (`shape` & `total_sightings`).**
 
-    - The values provided to the `x` aesthetic represent the x coordinates at which the `geom_text()` objects are to be located. In the first text geom (`shape`) the labels are specified to exist at the x-coordinate 200, whereas in the second (`total_sightings`), the label is to be 200 x-coordinates to the left of the end of each `total_sightings` columns.
+    - The values provided to the `x` aesthetic represent the x coordinates at which the `geom_text()` objects are to be located. In the first text geom (`shape`) the labels are specified to exist at the x-coordinate 200, whereas in the second (`total_sightings`), the label is to be 200 x-coordinates to the left of each `total_sightings` columns. In other words, `shape`'s position was defined in absolute terms, while `total_sightings`'s in relative terms.
 
 ### ii. Build `plot_us` 
 
@@ -275,7 +276,7 @@ plot_us <-  ggplot(df_us) +
 
 13. **Consider the order of `geom_*()` layers in the the above plot (`plot_us`). Why did the author order the layers in this way?**
 
-    - In this plot, `geom_rect` is first because it acts as the background for the `geom_text` labels. By putting it first, the author ensures that it gets plotted first, and therefore the labels get plotted on top of it.
+    - In this plot, `geom_rect` is first because it acts as the background for the `geom_text` labels. By putting it first, the author ensures that it gets plotted first, and therefore the labels get plotted on top of it, as the second and third steps.
 
 ### iii. Build `plot_day`
 
@@ -374,7 +375,7 @@ quote3 <- ggplot() +
 
 16. **Why do you think the author chose to convert these text elements (and also in `plot_ufo`, below!) into ggplot objects (you may consider returning to this question after you've worked your way through all of the code)?**
 
-    - By having all the plot components as the same type of object, it is easier to combine them using the same commands. 
+    - By having all the visual components (plots, quotes, and images) as the same type of object, it is easier to combine them using the same commands within R.
 
 ### v. Build `plot_ufo`
 
@@ -429,7 +430,7 @@ plot_base <- ggplot() +
 
 17. **Why does the author render `plot.caption` using `ggtext::element_markdown()`, rather than `element_text()` (like he does for rendering `plot.title` and `text`)?**
 
-    - The author uses `ggtext::element_markdown()` instead of `element_text()` because the caption was defined using the `glue()` function, and styling is specified using HTML. `ggtext::element_markdown()` can interpret HTML, whereas `element_text()` cannot. One way that this is important in this case is to preserve the spacing of the caption. 
+    - The author uses `ggtext::element_markdown()` instead of `element_text()` because the caption was defined using the `glue()` function, and styling is specified using HTML. `ggtext::element_markdown()` can interpret HTML, whereas `element_text()` cannot. In this case, this is important is to preserve the spacing of the caption, for example. The title and subtitle, on the other hand, are entered as simple strings, and can be rendered with `element_text`.
 
 ## V. Assemble & save
 
@@ -460,12 +461,11 @@ ggsave(plot = plot_final,
 
 18. **Explain how `plot_final` is assembled. What do you think is the most challenging aspect of arranging all components into a single plot?**
 
-    - Each element of the final plot -- the three plots and three quotes -- were all manually inset onto the `plot_base` (that has the title, subtitle, and caption) using the locations of the outer bonds (left, right, top, and bottom). The UFO image in the middle of `plot_day` is also manually inset. The function `inset_element()` comes from the `patchwork` package.
-    The most challenging aspect of arranging all of the components must be figuring out the proper placement using the argument units. I imagine that it would take a lot of fiddling and re-running the code to get all of the components to be situated exactly where you want them.
+    - Each element of the final visual -- the three plots and three quotes -- were all manually inset onto the `plot_base` (which contains the title, subtitle, and caption) by specifying the locations of the outer bounds (left, right, top, and bottom). The UFO image in the middle of `plot_day` is also manually inset. The function `inset_element()` comes from the `patchwork` package. The most challenging aspect of arranging all of the components must be figuring out the proper placement using the argument units. I imagine that it would take a lot of fiddling and re-running the code to get all of the components to be situated exactly where you want them.
 
 19. **Can you think of one reason the author may have chosen to separate the construction of `plot_base` and `plot_final`?**
 
-    - By creating `plot_base` first and treating it as its own separate object, the author gives themself the freedom to alter details such as text size, position, and color, without having to rerun or be afraid of affecting the `plot_final` object each time. Additionally, `plot_base` is defined using many lines of code. Constructing `plot_base` and `plot_final` together in one code chunk could potentially reduce readibility and comprehension to an outside audience.
+    - By creating `plot_base` first and treating it as its own separate object, the author gives themself the freedom to alter details such as text size, position, and color (of the title, subtitle, and caption), without having to rerun or be afraid of affecting `plot_final` each time. Additionally, `plot_base` is defined using many lines of code. Constructing `plot_base` and `plot_final` together in one code chunk could potentially reduce readibility and comprehension to an outside audience.
 
 ## Answer some final reflective questions 
 
@@ -473,30 +473,32 @@ ggsave(plot = plot_final,
 
     a. **What "perceptual tasks" (from Cleveland & McGill's heirarchy) must the viewer perform to extract information from these visualizations?**
         
-        - Plot 1: Measure bar lengths against each other; Plot 2: interpret opacity and spatial position (but states are also labeled); Plot 3: interpret opacity, as well as keep track both time of day and day of the week variables (a little difficult)
+        - Plot 1: Measure bar lengths relative to each other; 
+        - Plot 2: Interpret opacity and spatial position (states *are* labeled though, making it a bit easier); 
+        - Plot 3: Interpret opacity, as well as keep track of both the time and day variables (a little difficult with the radial plot)
     
     b. **What task(s) do you think the author wanted to enable or message(s) he wanted to convey with these visualizations (see lecture 2.1, slide 16 for examples)? Be sure to note at least one task / message for each of the three data viz.**
     
-        - For the second and third plots, author wanted to explore temporal and spatial patterns of UFO sightings in the US. Both of these plots also enable comparison between different places and times of day. In the first plot, the author wanted to convey big picture trends, such as that -- regardless of time or place -- the most common shape of UFO spotted.
+        - Plot 1: The author wanted to convey big picture trends, such as that -- regardless of time or place -- the most common shape of UFO spotted is "light"
+        - Plots 2 and 3: The author wanted to explore temporal and spatial patterns of UFO sightings in the US. Both of these plots also enable comparison between different places and times of day. 
     
     c. **Name at least one caveat to the "hierarchy of perceptual tasks" that the author employed to achieve a goal(s) you noted in question b?**
-    
         - The author preferred to use shades (`opacity_val`) to convey number of sightings (and explore spatial and temporal patterns), which sits pretty low on the hierarchy.
 
 21. **Describe two elements of this piece that you find visually-pleasing / easy to understand / intuitive. Why?** 
 
-    - I liked how the barplot label was embedded/plotted on top of the actual bar. I also liked the use of the coord_polar/radial plot to convey time of day. Although I guess it doesn't follow an actual clock (because it has 24 sections), it was still inuitive (perhaps because we still think of time as ths sun's rotation around the globe).
+    - I liked how the barplot labels were embedded/plotted on top of the actual bar. I also liked the use of the coord_polar/radial plot to convey time of day. Although it doesn't follow an actual clock (because it has 24 sections instead of 12), it was still inuitive, perhaps because we often think of time as the sun's rotation around the globe.
 
 22. **Describe two elements of this piece that you feel could be better presented in a different way. Why?** 
 
-    - 1. the squares of the US map are visually appealing, but it does make it makes it more difficult to actually discern which state is which based on my knowledge of the United States map 2. the days in the bottom left figure are not very intuitive
+    - 1. The squares of the US map are visually appealing, but it does make it makes it more difficult to actually discern which state is which based on common knowledge of the United States map (as in, they're not exactly where they are truly located).
+    - 2. The way the day of the week variable was presented in the third figure isn't very intuitive. From that plot I mostly gathered that sightings happened in the early morning, and very little about day of the week (at least at first glance).
     
 23. **Describe two new things that you learned by interpreting / annotating this code. These could be packages, functions, or even code organizational approaches that you hadn't previously known about or considered.**
 
-    - I really liked the opacity value approach, I didn't even know you could change alpha based on variable. I also always thought that coord_polar wasn't a very useful function, but I see now that it can have some aesthetic uses (I didn't know you could increase the size in the middle using ylim()).
+    - I really liked the opacity value approach; I didn't even know you could change alpha based on a variable. 
+    - I also always thought that coord_polar wasn't a very useful function, but I see now that it can be a visually-appealing and perhaps even intuitive way of depicting time. I also didn't know that you could increase the size of the hole in the middle simply by using `ylim()`.
 
 24. **How, if at all, did you use AI tools to help you interpret this code? Describe your approach to using these tools for this assignment. In what ways was consulting the documentation more (or less) helpful than using AI?**
 
-    - I tried to avoid AI tools while interpreting this code, though it did inadvertenly come up when I Google-searched for a function, and the AI overview popped up at the top of my results. If there were sources that seemed useful (from Stack Overflow, for example) I would opt to scan a website instead of using the overview. 
-    
-    I will say that checking function documentation (internally in R) was always my first step, and for most simple functions it was more clear than AI, because all of the possible arguments and their uses were summarized.
+    - I tried to avoid AI tools while interpreting this code, though it did inadvertently come up when I Google-searched for a function, and the AI overview popped up at the top of my results. If there were sources that seemed useful (from Stack Overflow, for example) I would opt to use those instead of using the overview. I will say that checking function documentation (internally in R) was always my first step, and for most simple functions it was more clear than AI, because it clearly lists all of the possible arguments and their uses.
