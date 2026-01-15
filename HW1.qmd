@@ -473,28 +473,30 @@ ggsave(plot = plot_final,
 
     a. **What "perceptual tasks" (from Cleveland & McGill's heirarchy) must the viewer perform to extract information from these visualizations?**
         
-        - Answer here
+        - Plot 1: Measure bar lengths against each other; Plot 2: interpret opacity and spatial position (but states are also labeled); Plot 3: interpret opacity, as well as keep track both time of day and day of the week variables (a little difficult)
     
     b. **What task(s) do you think the author wanted to enable or message(s) he wanted to convey with these visualizations (see lecture 2.1, slide 16 for examples)? Be sure to note at least one task / message for each of the three data viz.**
     
-        - Answer here
+        - For the second and third plots, author wanted to explore temporal and spatial patterns of UFO sightings in the US. Both of these plots also enable comparison between different places and times of day. In the first plot, the author wanted to convey big picture trends, such as that -- regardless of time or place -- the most common shape of UFO spotted.
     
     c. **Name at least one caveat to the "hierarchy of perceptual tasks" that the author employed to achieve a goal(s) you noted in question b?**
     
-        - Answer here
+        - The author preferred to use shades (`opacity_val`) to convey number of sightings (and explore spatial and temporal patterns), which sits pretty low on the hierarchy.
 
 21. **Describe two elements of this piece that you find visually-pleasing / easy to understand / intuitive. Why?** 
 
-    - Answer here
+    - I liked how the barplot label was embedded/plotted on top of the actual bar. I also liked the use of the coord_polar/radial plot to convey time of day. Although I guess it doesn't follow an actual clock (because it has 24 sections), it was still inuitive (perhaps because we still think of time as ths sun's rotation around the globe).
 
 22. **Describe two elements of this piece that you feel could be better presented in a different way. Why?** 
 
-    - Answer here
+    - 1. the squares of the US map are visually appealing, but it does make it makes it more difficult to actually discern which state is which based on my knowledge of the United States map 2. the days in the bottom left figure are not very intuitive
     
 23. **Describe two new things that you learned by interpreting / annotating this code. These could be packages, functions, or even code organizational approaches that you hadn't previously known about or considered.**
 
-    - Answer here
+    - I really liked the opacity value approach, I didn't even know you could change alpha based on variable. I also always thought that coord_polar wasn't a very useful function, but I see now that it can have some aesthetic uses (I didn't know you could increase the size in the middle using ylim()).
 
 24. **How, if at all, did you use AI tools to help you interpret this code? Describe your approach to using these tools for this assignment. In what ways was consulting the documentation more (or less) helpful than using AI?**
 
-    - Answer here
+    - I tried to avoid AI tools while interpreting this code, though it did inadvertenly come up when I Google-searched for a function, and the AI overview popped up at the top of my results. If there were sources that seemed useful (from Stack Overflow, for example) I would opt to scan a website instead of using the overview. 
+    
+    I will say that checking function documentation (internally in R) was always my first step, and for most simple functions it was more clear than AI, because all of the possible arguments and their uses were summarized.
